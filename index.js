@@ -9,7 +9,7 @@ function predictWord() {
         // Find the most probable word.
         scores.sort((s1, s2) => s2.score - s1.score);
         document.querySelector('#console').textContent = scores[0].word;
-    }, { probabilityThreshold: 0.75 });
+    }, { probabilityThreshold: 0.95 });
 }
 
 async function app() {
