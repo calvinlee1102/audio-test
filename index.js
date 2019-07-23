@@ -15,7 +15,7 @@ function predictWord() {
 async function app() {
     recognizer = speechCommands.create('BROWSER_FFT');
     await recognizer.ensureModelLoaded();
-    predictWord();
+    //predictWord();
 }
 
 app();
