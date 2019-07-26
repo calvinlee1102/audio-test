@@ -46,7 +46,7 @@ function collect(label) {
             includeSpectrogram: true,
             invokeCallbackOnNoiseAndUnknown: true
         });
-
+    alert(example);
 }
 
 
