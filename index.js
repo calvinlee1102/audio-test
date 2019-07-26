@@ -25,9 +25,12 @@ app();
 const NUM_FRAMES = 3;
 let examples = [];
 
+function seeexample() {
+    alert(example);
+}
+
 function collect(label) {
     if (recognizer.isListening()) {
-        alert('over');
         return recognizer.stopListening();
     }
     if (label == null) {
@@ -43,6 +46,7 @@ function collect(label) {
             includeSpectrogram: true,
             invokeCallbackOnNoiseAndUnknown: true
         });
+
 }
 
 
