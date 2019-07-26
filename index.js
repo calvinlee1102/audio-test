@@ -17,12 +17,13 @@ async function app() {
     await recognizer.ensureModelLoaded();
     //predictWord();
     buildModel();
+    //getVoiceModel();
 }
 
 app();
 
 // One frame is ~23ms of audio.
-const NUM_FRAMES = 3;
+const NUM_FRAMES = 6;
 let examples = [];
 
 function collect(label) {
@@ -55,7 +56,7 @@ let model;
 
 async function train() {
     toggleButtons(false);
-    const ys = tf.oneHot(examples.map(e => e.label), 3);
+    const ys = tf.oneHot(examples.map(e => e.label), NUM_FRAMES);
     const xsShape = [examples.length, ...INPUT_SHAPE];
     const xs = tf.tensor(flatten(examples.map(e => e.vals)), xsShape);
 
@@ -83,7 +84,7 @@ function buildModel() {
     }));
     model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
     model.add(tf.layers.flatten());
-    model.add(tf.layers.dense({ units: 3, activation: 'softmax' }));
+    model.add(tf.layers.dense({ units: NUM_FRAMES, activation: 'softmax' }));
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
@@ -104,9 +105,9 @@ function flatten(tensors) {
 }
 
 function getVoiceModel() {
-    const model = tf.sequential();
+    model = tf.sequential();
     model.add(tf.layers.conv2d({
-        inputShape: [43, 232, 1],
+        inputShape: [NUM_FRAMES, 232, 1],
         kernelSize: [2, 8],
         filters: 8,
         strides: [1, 1],
@@ -163,23 +164,16 @@ function getVoiceModel() {
         rate: 0.5
     }));
     model.add(tf.layers.dense({
-        units: 20,
+        units: 6,
         kernelInitializer: 'varianceScaling',
         activation: 'softmax'
     }));
-    //var optimizer = tf.train.sgd(LEARNING_RATE);
-    //alert(optimizertype);
-    //if (optimizertype =='sgd') {
-    //    optimizer = tf.train.sgd(LEARNING_RATE);
-    //} else if (optimizertype == 'momentum') {
-    //    optimizer = tf.train.momentum(LEARNING_RATE);
-    //}
-    //model.compile({
-    //    optimizer: optimizer,
-    //    loss: 'categoricalCrossentropy',
-    //    metrics: ['accuracy']
-    //});
-    return model;
+    const optimizer = tf.train.adam(0.01);
+    model.compile({
+        optimizer,
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy']
+    });
 }
 
 async function moveSlider(labelTensor) {
@@ -214,7 +208,8 @@ function listen() {
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
-            includeSpectrogram: true,
-            invokeCallbackOnNoiseAndUnknown: true
+            includeSpectrogram: false,
+            invokeCallbackOnNoiseAndUnknown: true,
+            probabilityThreshold: 0.95
         });
 }
