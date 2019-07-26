@@ -27,7 +27,6 @@ let examples = [];
 
 function collect(label) {
     if (recognizer.isListening()) {
-        alert(examples);
         return recognizer.stopListening();
     }
     if (label == null) {
@@ -199,11 +198,11 @@ function listen() {
     if (recognizer.isListening()) {
         recognizer.stopListening();
         toggleButtons(true);
-        document.getElementById('listen').textContent = 'Listen';
+        document.getElementById('listen').innerText = 'Listen';
         return;
     }
     toggleButtons(false);
-    document.getElementById('listen').textContent = 'Stop';
+    document.getElementById('listen').innerText = 'Stop';
     document.getElementById('listen').disabled = false;
 
     recognizer.listen(async ({ spectrogram: { frameSize, data } }) => {
