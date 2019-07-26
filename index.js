@@ -25,10 +25,6 @@ app();
 const NUM_FRAMES = 3;
 let examples = [];
 
-function seeexample() {
-    alert(example);
-}
-
 function collect(label) {
     if (recognizer.isListening()) {
         return recognizer.stopListening();
@@ -46,7 +42,6 @@ function collect(label) {
             includeSpectrogram: true,
             invokeCallbackOnNoiseAndUnknown: true
         });
-    alert(example);
 }
 
 function normalize(x) {
