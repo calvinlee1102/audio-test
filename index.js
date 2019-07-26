@@ -74,7 +74,8 @@ async function train() {
     toggleButtons(true);
 }
 
-function buildModel() {
+async function buildModel() {
+    //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
     model = tf.sequential();
     model.add(tf.layers.depthwiseConv2d({
         depthMultiplier: 8,
@@ -85,6 +86,7 @@ function buildModel() {
     model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
     model.add(tf.layers.flatten());
     model.add(tf.layers.dense({ units: NUM_FRAMES, activation: 'softmax' }));
+
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
