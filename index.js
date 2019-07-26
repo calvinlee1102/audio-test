@@ -27,6 +27,7 @@ let examples = [];
 
 function collect(label) {
     if (recognizer.isListening()) {
+        alert(examples);
         return recognizer.stopListening();
     }
     if (label == null) {
