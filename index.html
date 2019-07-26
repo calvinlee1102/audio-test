@@ -1,8 +1,10 @@
 <html>
 <head>
-    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
-    <script src="https://unpkg.com/@tensorflow-models/speech-commands"></script>
-    <!--<script src="voicetfjs.js"></script>-->
+    <!--<script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow-models/speech-commands"></script>-->
+    <script src="index.js"></script>
+    <script src="tfjs.js"></script>
+    <script src="voicetfjs.js"></script>
     <script type="text/javascript">
         async function downloadModelLocally() {
             const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
@@ -11,15 +13,21 @@
     </script>
 </head>
 <body>
-    <p>version-3</p>
+    <p>version-5</p>
     <div id="console"></div>
     <script src="index.js"></script>
+    <script src="tfjs.js"></script>
+    <script src="voicetfjs.js"></script>
     <button onclick="downloadModelLocally()">save model</button><br /><br />
     <button id="left" onmousedown="collect(0)" onmouseup="collect(null)">Left</button>
     <button id="right" onmousedown="collect(1)" onmouseup="collect(null)">Right</button>
     <button id="noise" onmousedown="collect(2)" onmouseup="collect(null)">Noise</button>
     <br /><br />
     <button id="train" onclick="train()">Train</button><br />
-    <button onclick="seeexample();">see example</button>
+    <br /><br />
+    <button id="listen" onclick="listen()">Listen</button>
+    <input type="range" id="output" min="0" max="10" step="0.1">
+    <br /><br />
+    <button onclick="seeexample();">see example</button><br />
 </body>
 </html>
