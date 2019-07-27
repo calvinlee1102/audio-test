@@ -79,7 +79,7 @@ async function buildModel() {
     model = tf.sequential();
     model.add(tf.layers.depthwiseConv2d({
         depthMultiplier: 8,
-        kernelSize: [NUM_FRAMES, 3],
+        kernelSize: [3, NUM_FRAMES],
         activation: 'relu',
         inputShape: INPUT_SHAPE
     }));
@@ -210,7 +210,7 @@ function listen() {
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
-            includeSpectrogram: false,
+            includeSpectrogram: true,
             invokeCallbackOnNoiseAndUnknown: true,
             probabilityThreshold: 0.95
         });
