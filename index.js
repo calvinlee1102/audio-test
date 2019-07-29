@@ -208,11 +208,10 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        var labeltemp = (await labelTensor.data())[0];
-        alert(labeltemp)
-        document.getElementById('console').textContent = labeltext[labeltemp];
+        const label = (await predLabel.data())[0];
+        document.getElementById('console').textContent = labeltext[label];
         //await moveSlider(predLabel);
-        tf.dispose([input, probs, predLabel]);
+        tf.dispose([input, probs, predLabel, label]);
     }, {
             overlapFactor: 0.999,
             includeSpectrogram: true,
