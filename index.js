@@ -20,14 +20,11 @@ async function app() {
     //getVoiceModel();
 }
 
+app();
+
 // One frame is ~23ms of audio.
 const NUM_FRAMES = 43;
 let examples = [];
-const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 3;
-let model;
-
-app();
 
 function collect(label) {
     if (recognizer.isListening()) {
@@ -54,6 +51,9 @@ function normalize(x) {
     return x.map(x => (x - mean) / std);
 }
 
+const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
+var classes = 3;
+let model;
 
 async function train() {
     toggleButtons(false);
@@ -75,7 +75,7 @@ async function train() {
     toggleButtons(true);
 }
 
-async function buildModel() {
+function buildModel() {
     const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
     //model = tf.sequential();
     //model.add(tf.layers.depthwiseConv2d({
@@ -191,7 +191,7 @@ async function moveSlider(labelTensor) {
     document.getElementById('output').value =
         prevValue + (label === 0 ? -delta : delta);
 }
-var labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
+
 function listen() {
     if (recognizer.isListening()) {
         recognizer.stopListening();
@@ -208,10 +208,8 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        const label = (await predLabel.data())[0];
-        document.getElementById('console').textContent = labeltext[label];
-        //await moveSlider(predLabel);
-        tf.dispose([input, probs, predLabel, label]);
+        await moveSlider(predLabel);
+        tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
             includeSpectrogram: true,
