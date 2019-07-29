@@ -51,7 +51,7 @@ function normalize(x) {
 const NUM_FRAMES = 42;
 let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 6;
+var classes = 3;
 let model;
 
 async function train() {
