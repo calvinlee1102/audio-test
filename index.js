@@ -22,10 +22,6 @@ async function app() {
 
 app();
 
-// One frame is ~23ms of audio.
-const NUM_FRAMES = 42;
-let examples = [];
-
 function collect(label) {
     if (recognizer.isListening()) {
         return recognizer.stopListening();
@@ -51,8 +47,11 @@ function normalize(x) {
     return x.map(x => (x - mean) / std);
 }
 
+// One frame is ~23ms of audio.
+const NUM_FRAMES = 42;
+let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 3;
+var classes = 6;
 let model;
 
 async function train() {
@@ -191,7 +190,7 @@ async function moveSlider(labelTensor) {
     document.getElementById('output').value =
         prevValue + (label === 0 ? -delta : delta);
 }
-
+labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
 function listen() {
     if (recognizer.isListening()) {
         recognizer.stopListening();
@@ -208,7 +207,9 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        await moveSlider(predLabel);
+        const label = (await labelTensor.data())[0];
+        document.getElementById('console').textContent = labeltext[label];
+        //await moveSlider(predLabel);
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
