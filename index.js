@@ -87,7 +87,7 @@ async function buildModel() {
     //model.add(tf.layers.flatten());
     model = tf.sequential({layers: model2.layers.slice(0,12)});
     model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
-    model2.dispose();
+
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
