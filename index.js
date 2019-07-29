@@ -48,7 +48,7 @@ function normalize(x) {
 }
 
 // One frame is ~23ms of audio.
-const NUM_FRAMES = 42;
+const NUM_FRAMES = 43;
 let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
 var classes = 3;
