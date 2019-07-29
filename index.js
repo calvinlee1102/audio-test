@@ -87,7 +87,7 @@ async function buildModel() {
     //model.add(tf.layers.flatten());
     model = tf.sequential({layers: model2.layers.slice(0,12)});
     model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
-
+    model2.dispose();
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
@@ -208,7 +208,9 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        await moveSlider(predLabel);
+        const label = (await predLabel.data())[0];
+        document.getElementById('console').textContent = labeltext[label];
+        //await moveSlider(predLabel);
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
