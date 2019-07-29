@@ -209,7 +209,7 @@ function listen() {
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
         const label = (await predLabel.data())[0];
-        document.getElementById('console').textContent = labeltext[label];
+        document.getElementById('console').textContent = labeltext[parent(label)];
         //await moveSlider(predLabel);
         tf.dispose([input, probs, predLabel]);
     }, {
