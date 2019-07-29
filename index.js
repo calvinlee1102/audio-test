@@ -182,7 +182,7 @@ function getVoiceModel() {
 
 async function moveSlider(labelTensor) {
     const label = (await labelTensor.data())[0];
-    document.getElementById('console').textContent = labeltext[label];
+    document.getElementById('console').textContent = label;
     if (label == 2) {
         return;
     }
