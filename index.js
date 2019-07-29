@@ -22,10 +22,6 @@ async function app() {
 
 app();
 
-// One frame is ~23ms of audio.
-const NUM_FRAMES = 42;
-let examples = [];
-
 function collect(label) {
     if (recognizer.isListening()) {
         return recognizer.stopListening();
@@ -51,8 +47,11 @@ function normalize(x) {
     return x.map(x => (x - mean) / std);
 }
 
+// One frame is ~23ms of audio.
+const NUM_FRAMES = 42;
+let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 3;
+var classes = 6;
 let model;
 
 async function train() {
@@ -76,17 +75,17 @@ async function train() {
 }
 
 function buildModel() {
-    const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
-    //model = tf.sequential();
-    //model.add(tf.layers.depthwiseConv2d({
-    //    depthMultiplier: 8,
-    //    kernelSize: [NUM_FRAMES, 3],
-    //    activation: 'relu',
-    //    inputShape: INPUT_SHAPE
-    //}));
-    //model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
-    //model.add(tf.layers.flatten());
-    model = tf.sequential({layers: model2.layers.slice(0,12)});
+    //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
+    model = tf.sequential();
+    model.add(tf.layers.depthwiseConv2d({
+        depthMultiplier: 8,
+        kernelSize: [NUM_FRAMES, 3],
+        activation: 'relu',
+        inputShape: INPUT_SHAPE
+    }));
+    model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
+    model.add(tf.layers.flatten());
+    //model = tf.sequential({layers: model2.layers.slice(0,12)});
     model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
 
     const optimizer = tf.train.adam(0.01);
@@ -191,7 +190,7 @@ async function moveSlider(labelTensor) {
     document.getElementById('output').value =
         prevValue + (label === 0 ? -delta : delta);
 }
-
+var labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
 function listen() {
     if (recognizer.isListening()) {
         recognizer.stopListening();
@@ -208,7 +207,9 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        await moveSlider(predLabel);
+        const label = (await labelTensor.data())[0];
+        document.getElementById('console').textContent = labeltext[label];
+        //await moveSlider(predLabel);
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
