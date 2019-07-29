@@ -52,7 +52,7 @@ function normalize(x) {
 }
 
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 6;
+var classes = 3;
 let model;
 
 async function train() {
@@ -86,8 +86,9 @@ function buildModel() {
     }));
     model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
     model.add(tf.layers.flatten());
-    model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
     //model = tf.sequential({layers: model2.layers.slice(0,11)});
+    model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
+
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
