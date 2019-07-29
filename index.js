@@ -48,10 +48,9 @@ function normalize(x) {
 }
 
 // One frame is ~23ms of audio.
-const NUM_FRAMES = 40;
+const NUM_FRAMES = 43;
 let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
-var classes = 6;
 let model;
 
 async function train() {
@@ -61,7 +60,7 @@ async function train() {
     const xs = tf.tensor(flatten(examples.map(e => e.vals)), xsShape);
 
     await model.fit(xs, ys, {
-        batchSize: 16,
+        batchSize: 25,
         epochs: 10,
         callbacks: {
             onEpochEnd: (epoch, logs) => {
@@ -75,7 +74,11 @@ async function train() {
 }
 
 async function buildModel() {
-    const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
+    //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
+    const uploadJSONInput = document.getElementById('uploadmodel');
+    const uploadWeightsInput = document.getElementById('uploadweight');
+    model2 = await tf.loadLayersModel(tf.io.browserFiles(
+        [uploadJSONInput.files[0], uploadWeightsInput.files[0]]));
     //model = tf.sequential();
     //model.add(tf.layers.depthwiseConv2d({
     //    depthMultiplier: 8,
@@ -182,7 +185,10 @@ function getVoiceModel() {
 
 async function moveSlider(labelTensor) {
     const label = (await labelTensor.data())[0];
-    document.getElementById('console').textContent = labeltext[label];
+    if (labeltext[label]!='noise') {
+        document.getElementById('console').textContent = labeltext[label];
+    }
+    
     if (label == 2) {
         return;
     }
@@ -216,4 +222,10 @@ function listen() {
             invokeCallbackOnNoiseAndUnknown: true,
             probabilityThreshold: 0.9
         });
+}
+async function UploadModelFile() {
+    const uploadJSONInput = document.getElementById('uploadmodel');
+    const uploadWeightsInput = document.getElementById('uploadweight');
+    model = await tf.loadLayersModel(tf.io.browserFiles(
+        [uploadJSONInput.files[0], uploadWeightsInput.files[0]]));
 }
