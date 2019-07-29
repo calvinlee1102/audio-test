@@ -22,10 +22,6 @@ async function app() {
 
 app();
 
-// One frame is ~23ms of audio.
-const NUM_FRAMES = 43;
-let examples = [];
-
 function collect(label) {
     if (recognizer.isListening()) {
         return recognizer.stopListening();
@@ -51,6 +47,9 @@ function normalize(x) {
     return x.map(x => (x - mean) / std);
 }
 
+// One frame is ~23ms of audio.
+const NUM_FRAMES = 43;
+let examples = [];
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
 var classes = 3;
 let model;
@@ -96,6 +95,7 @@ async function buildModel() {
         metrics: ['accuracy']
     });
 }
+
 
 function toggleButtons(enable) {
     document.querySelectorAll('button').forEach(b => b.disabled = !enable);
