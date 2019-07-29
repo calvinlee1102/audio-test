@@ -10,11 +10,11 @@
             const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
             const saveResult = await model2.save('downloads://mymodel');
         }
-        labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
+        var labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
     </script>
 </head>
 <body>
-    <p>version-22</p>
+    <p>version-23</p>
     <div id="console"></div>
     <button onclick="downloadModelLocally()">save model</button><br /><br />
     <button id="left" onmousedown="collect(0)" onmouseup="collect(null)">Left</button>
