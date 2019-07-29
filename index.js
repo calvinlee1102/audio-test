@@ -75,18 +75,18 @@ async function train() {
 }
 
 async function buildModel() {
-    const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
-    //model = tf.sequential();
-    //model.add(tf.layers.depthwiseConv2d({
-    //    depthMultiplier: 8,
-    //    kernelSize: [3, NUM_FRAMES],
-    //    activation: 'relu',
-    //    inputShape: INPUT_SHAPE
-    //}));
-    //model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
-    //model.add(tf.layers.flatten());
-    //model.add(tf.layers.dense({ units: NUM_FRAMES, activation: 'softmax' }));
-    model = tf.sequential({layers: model2.layers.slice(0,11)});
+    //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
+    model = tf.sequential();
+    model.add(tf.layers.depthwiseConv2d({
+        depthMultiplier: 8,
+        kernelSize: [3, NUM_FRAMES],
+        activation: 'relu',
+        inputShape: INPUT_SHAPE
+    }));
+    model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
+    model.add(tf.layers.flatten());
+    model.add(tf.layers.dense({ units: NUM_FRAMES, activation: 'softmax' }));
+    //model = tf.sequential({layers: model2.layers.slice(0,11)});
     const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer,
