@@ -179,11 +179,10 @@ function getVoiceModel() {
         metrics: ['accuracy']
     });
 }
-var labeltext = ['left', 'right', 'load data', 'showexample', 'starttraining', 'noise'];
+
 async function moveSlider(labelTensor) {
     const label = (await labelTensor.data())[0];
-    alert(labeltext[label]);
-    document.getElementById('console').textContent = label;
+    document.getElementById('console').textContent = labeltext[label];
     if (label == 2) {
         return;
     }
