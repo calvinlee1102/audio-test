@@ -74,7 +74,7 @@ async function train() {
     toggleButtons(true);
 }
 
-function buildModel() {
+async function buildModel() {
     const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
     //model = tf.sequential();
     //model.add(tf.layers.depthwiseConv2d({
