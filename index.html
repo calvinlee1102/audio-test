@@ -1,9 +1,9 @@
 <html>
 <head>
-    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <!--<script src="https://unpkg.com/@tensorflow/tfjs"></script>-->
     <script src="https://unpkg.com/@tensorflow-models/speech-commands"></script>
-    <!--<script src="tf.min.js"></script>
-    <script src="voicetfjs.js"></script>-->
+    <script src="tf.min.js"></script>
+    <script src="voicetfjs.js"></script>
     <script src="index.js"></script>
     <script type="text/javascript">
         async function downloadModelLocally() {
@@ -14,7 +14,7 @@
     </script>
 </head>
 <body>
-    <p>version-37</p>
+    <p>version-38</p>
     <div id="console"></div>
     <button onclick="downloadModelLocally()">save model</button><br /><br />
     <button id="left" onmousedown="collect(0)" onmouseup="collect(null)">Left</button>
