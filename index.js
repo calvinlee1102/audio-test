@@ -23,7 +23,7 @@ async function app() {
 app();
 
 // One frame is ~23ms of audio.
-const NUM_FRAMES = 6;
+const NUM_FRAMES = 42;
 let examples = [];
 
 function collect(label) {
@@ -52,11 +52,12 @@ function normalize(x) {
 }
 
 const INPUT_SHAPE = [NUM_FRAMES, 232, 1];
+var classes = 6;
 let model;
 
 async function train() {
     toggleButtons(false);
-    const ys = tf.oneHot(examples.map(e => e.label), NUM_FRAMES);
+    const ys = tf.oneHot(examples.map(e => e.label), classes);
     const xsShape = [examples.length, ...INPUT_SHAPE];
     const xs = tf.tensor(flatten(examples.map(e => e.vals)), xsShape);
 
@@ -74,18 +75,18 @@ async function train() {
     toggleButtons(true);
 }
 
-async function buildModel() {
+function buildModel() {
     //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
     model = tf.sequential();
     model.add(tf.layers.depthwiseConv2d({
         depthMultiplier: 8,
-        kernelSize: [3, NUM_FRAMES],
+        kernelSize: [NUM_FRAMES, 3],
         activation: 'relu',
         inputShape: INPUT_SHAPE
     }));
     model.add(tf.layers.maxPooling2d({ poolSize: [1, 2], strides: [2, 2] }));
     model.add(tf.layers.flatten());
-    model.add(tf.layers.dense({ units: NUM_FRAMES, activation: 'softmax' }));
+    model.add(tf.layers.dense({ units: classes, activation: 'softmax' }));
     //model = tf.sequential({layers: model2.layers.slice(0,11)});
     const optimizer = tf.train.adam(0.01);
     model.compile({
@@ -109,7 +110,7 @@ function flatten(tensors) {
 function getVoiceModel() {
     model = tf.sequential();
     model.add(tf.layers.conv2d({
-        inputShape: [42, 232, 1],
+        inputShape: [NUM_FRAMES, 232, 1],
         kernelSize: [2, 8],
         filters: 8,
         strides: [1, 1],
