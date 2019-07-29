@@ -182,7 +182,7 @@ function getVoiceModel() {
 
 async function moveSlider(labelTensor) {
     const label = (await labelTensor.data())[0];
-    document.getElementById('console').textContent = label;
+    document.getElementById('console').textContent = labeltext[label];
     if (label == 2) {
         return;
     }
@@ -208,9 +208,7 @@ function listen() {
         const input = tf.tensor(vals, [1, ...INPUT_SHAPE]);
         const probs = model.predict(input);
         const predLabel = probs.argMax(1);
-        const label = (await predLabel.data())[0];
-        document.getElementById('console').textContent = labeltext[parent(label)];
-        //await moveSlider(predLabel);
+        await moveSlider(predLabel);
         tf.dispose([input, probs, predLabel]);
     }, {
             overlapFactor: 0.999,
