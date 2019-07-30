@@ -10,7 +10,7 @@
             //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
             const saveResult = await model.save('downloads://mymodel');
         }
-        var labeltext = ['left', 'right', 'up', 'down', 'jarvis', 'confirm', 'negative', 'load data', 'show example', 'start training', 'matrix', 'noise'];
+        var labeltext = ['left', 'right', 'up', 'down', 'jarvis', 'confirm', 'negative', 'load data', 'show example','model summary', 'start training', 'accuracy', 'noise', 'background'];
         var classes = labeltext.length;
         const words = ["_background_noise_", "_unknown_", "down", "eight", "five", "four", "go", "left", "nine", "no", "one", "right", "seven", "six", "stop", "three", "two", "up", "yes", "zero"];
         const frameSize = 232;
@@ -29,9 +29,12 @@
     <button onmousedown="collect(6)" onmouseup="collect(null)">Negative</button><br />
     <button onmousedown="collect(7)" onmouseup="collect(null)">Load Data</button><br />
     <button onmousedown="collect(8)" onmouseup="collect(null)">Show Example</button><br />
-    <button onmousedown="collect(9)" onmouseup="collect(null)">Start Training</button><br />
-    <button onmousedown="collect(10)" onmouseup="collect(null)">Matrix</button><br />
-    <button id="noise" onmousedown="collect(11)" onmouseup="collect(null)">Noise</button><br />
+    <button onmousedown="collect(9)" onmouseup="collect(null)">Model Summary</button><br />
+    <button onmousedown="collect(10)" onmouseup="collect(null)">Start Training</button><br />
+    <button onmousedown="collect(11)" onmouseup="collect(null)">Accuracy</button><br />
+    <button id="noise" onmousedown="collect(12)" onmouseup="collect(null)">Noise</button><br />
+    <button onmousedown="collect(13)" onmouseup="collect(null)">Background</button><br />
+
     <br /><br />
     <button id="train" onclick="train()">Train</button><br />
     <br /><br />
