@@ -75,10 +75,12 @@ async function train() {
 
 async function buildModel() {
     //const model2 = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/speech-commands/v0.3/browser_fft/18w/model.json');
+
     const uploadJSONInput = document.getElementById('uploadmodel');
     const uploadWeightsInput = document.getElementById('uploadweight');
     model2 = await tf.loadLayersModel(tf.io.browserFiles(
         [uploadJSONInput.files[0], uploadWeightsInput.files[0]]));
+
     //model = tf.sequential();
     //model.add(tf.layers.depthwiseConv2d({
     //    depthMultiplier: 8,

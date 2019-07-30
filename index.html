@@ -1,7 +1,9 @@
 <html>
 <head>
-    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
-    <script src="https://unpkg.com/@tensorflow-models/speech-commands"></script>
+    <!--<script src="https://unpkg.com/@tensorflow/tfjs"></script>-->
+    <!--<script src="https://unpkg.com/@tensorflow-models/speech-commands"></script>-->
+    <script src="tfjs.js"></script>
+    <script src="voicetfjs.js"></script>
     <script src="index.js"></script>
     <script type="text/javascript">
         async function downloadModelLocally() {
@@ -10,6 +12,8 @@
         }
         var labeltext = ['left', 'right', 'up', 'down', 'jarvis', 'confirm', 'negative', 'load data', 'show example', 'start training', 'matrix', 'noise'];
         var classes = labeltext.length;
+        const words = ["_background_noise_", "_unknown_", "down", "eight", "five", "four", "go", "left", "nine", "no", "one", "right", "seven", "six", "stop", "three", "two", "up", "yes", "zero"];
+        const frameSize = 232;
     </script>
 </head>
 <body>
