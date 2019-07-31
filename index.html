@@ -37,12 +37,13 @@
 
     <br /><br />
     <button id="train" onclick="train()">Train</button><br />
+    <button onclick="modelinspection();">Model Inspection</button>
     <br /><br />
     <button id="listen" onclick="listen()">Listen</button>
     <input type="range" id="output" min="0" max="10" step="0.1"><br />
     model.json<input id="uploadmodel" type="file" /><br />
     weight.bin<input id="uploadweight" type="file" /><br />
-    <button id="UploadModelFile" onclick="buildModel();">Upload Pretrain Model</button><br />
+    <button id="UploadModelFile" onclick="buildModel();">Upload Pretrain Model</button><br /><br />
     <button onclick="downloadModelLocally();">download model</button>
 </body>
 </html>
