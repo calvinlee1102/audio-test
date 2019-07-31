@@ -67,7 +67,8 @@ async function train() {
                 document.querySelector('#console').textContent =
                     `Accuracy: ${(logs.acc * 100).toFixed(1)}% Epoch: ${epoch + 1}`;
             }
-        }
+        },
+        shuffle: true
     });
     tf.dispose([xs, ys]);
     toggleButtons(true);
