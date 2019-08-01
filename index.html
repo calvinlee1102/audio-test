@@ -14,6 +14,15 @@
         var classes = labeltext.length;
         const words = ["_background_noise_", "_unknown_", "down", "eight", "five", "four", "go", "left", "nine", "no", "one", "right", "seven", "six", "stop", "three", "two", "up", "yes", "zero"];
         const frameSize = 232;
+        function downloadObjectAsJson(exportObj, exportName) {
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", exportName + ".json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
     </script>
 </head>
 <body>
@@ -33,7 +42,8 @@
     <button onmousedown="collect(10)" onmouseup="collect(null)">Start Training</button><br />
     <button onmousedown="collect(11)" onmouseup="collect(null)">Accuracy</button><br />
     <button id="noise" onmousedown="collect(12)" onmouseup="collect(null)">Noise</button><br />
-    <button onmousedown="collect(13)" onmouseup="collect(null)">Background</button><br />
+    <button onmousedown="collect(13)" onmouseup="collect(null)">Background</button><br /><br />
+    <button onclick="downloadObjectAsJson(examples,'voicedata')">download_voicedata.json</button>
 
     <br /><br />
     <button id="train" onclick="train()">Train</button><br />
