@@ -23,12 +23,23 @@
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
         }
+        function upload_voicedata() {
+            var file = document.getElementById("upload_voicedata").files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                examples = JSON.parse(decodeURIComponent(this.result.slice(29, this.result.length)));
+            }
+        }
     </script>
 </head>
 <body>
     <p>version-56</p>
     <div id="console"></div>
     <button onclick="downloadModelLocally()">save model</button><br /><br />
+
+    <button onclick="upload_voicedata();">Upload_voicedata.json</button>: <input id="upload_voicedata" type="file" /><br /><br />
+
     <button id="left" onmousedown="collect(0)" onmouseup="collect(null)">Left</button><br />
     <button id="right" onmousedown="collect(1)" onmouseup="collect(null)">Right</button><br />
     <button onmousedown="collect(2)" onmouseup="collect(null)">Up</button><br />
@@ -43,17 +54,18 @@
     <button onmousedown="collect(11)" onmouseup="collect(null)">Accuracy</button><br />
     <button id="noise" onmousedown="collect(12)" onmouseup="collect(null)">Noise</button><br />
     <button onmousedown="collect(13)" onmouseup="collect(null)">Background</button><br /><br />
-    <button onclick="downloadObjectAsJson(examples,'voicedata')">download_voicedata.json</button>
-
-    <br /><br />
-    <button id="train" onclick="train()">Train</button><br />
-    <button onclick="modelinspection();">Model Inspection</button>
-    <br /><br />
-    <button id="listen" onclick="listen()">Listen</button>
-    <input type="range" id="output" min="0" max="10" step="0.1"><br />
+    <button onclick="downloadObjectAsJson(examples,'voicedata')">download_voicedata.json</button><br /><br />
+    
+    
     model.json<input id="uploadmodel" type="file" /><br />
     weight.bin<input id="uploadweight" type="file" /><br />
     <button id="UploadModelFile" onclick="buildModel();">Upload Pretrain Model</button><br /><br />
+    <button onclick="modelinspection();">Model Inspection</button><br />
+    <button id="train" onclick="train()">Train</button><br /><br />
+
+    <button id="listen" onclick="listen()">Listen</button>
+    <input type="range" id="output" min="0" max="10" step="0.1"><br />
+
     <button onclick="downloadModelLocally();">download model</button>
 </body>
 </html>
